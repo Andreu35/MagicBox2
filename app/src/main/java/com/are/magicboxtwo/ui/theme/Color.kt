@@ -25,3 +25,4 @@ val Blue = Color(0xFF4B74FF)
 
 // Red
 val Red = Color(0xFFF00000)
+val Red1 = Color(0xFFFF8B8B)
