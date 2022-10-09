@@ -2,10 +2,26 @@ package com.are.magicboxtwo.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
+// Black
+val Black = Color(0xFF000000)
+val Black1 = Color(0xFF1B1B1B)
+val Black2 = Color(0xFF2E2E2E)
+val BlackSemitransparent = Color(0x66000000)
 
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+// White
+val White = Color(0xFFFFFFFF)
+val WhiteSemitransparent = Color(0x66FFFFFF)
+
+// Gray
+val Gray = Color(0xFFE4E4E4)
+val Gray1 = Color(0xFF999999)
+val Gray2 = Color(0xFF767676)
+val Gray3 = Color(0xFF747474)
+val Gray4 = Color(0xFF828282)
+val Gray5 = Color(0xAA444444)
+
+// Blue
+val Blue = Color(0xFF4B74FF)
+
+// Red
+val Red = Color(0xFFF00000)
