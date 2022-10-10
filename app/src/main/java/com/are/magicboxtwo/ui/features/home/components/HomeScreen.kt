@@ -16,7 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.are.magicboxtwo.ui.features.error.ErrorContent
+import com.are.magicboxtwo.ui.common.error.ErrorContent
 import com.are.magicboxtwo.ui.features.home.state.HomeUIState
 import com.are.magicboxtwo.ui.features.home.state.HomeUIStateResponse
 import com.are.magicboxtwo.ui.features.home.state.dummyPreviewItems

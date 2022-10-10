@@ -5,13 +5,14 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
+import com.are.magicboxtwo.ui.common.navigationdrawer.MagicBoxNavigationDrawer
+import com.are.magicboxtwo.ui.common.topappbar.ActionType
+import com.are.magicboxtwo.ui.common.topappbar.MagicBoxTopAppBar
 import com.are.magicboxtwo.ui.features.home.components.HomeScreen
 import com.are.magicboxtwo.ui.features.home.viewmodel.HomeScreenViewModel
 import com.are.magicboxtwo.ui.theme.MBTheme
@@ -33,69 +34,45 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             MagicBox2Theme {
-                Scaffold(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    containerColor = MBTheme.colors.onPrimary,
-                    contentColor = MBTheme.colors.primary,
-                    topBar = {
-                        TopAppBar(
-                            modifier = Modifier,
-                            title = {
-                                Text(
-                                    text = stringResource(id = R.string.app_name),
-                                    color = MBTheme.colors.primary
-                                )
-                            },
-                            navigationIcon = {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.ic_menu),
-                                    contentDescription = null
-                                )
-                            },
-                            actions = {
-                                IconButton(
-                                    onClick = {
-
-                                    },
-                                    content = {
-                                        Icon(
-                                            painter = painterResource(id = R.drawable.ic_search),
-                                            contentDescription = null
-                                        )
-                                    }
-                                )
-                                IconButton(
-                                    onClick = {
-                                        switchNightMode()
-                                    },
-                                    content = {
-                                        Icon(
-                                            painter = if (isSystemInDarkTheme()) {
-                                                painterResource(id = R.drawable.ic_dark_mode)
-                                            } else {
-                                                painterResource(id = R.drawable.ic_light_mode)
-                                            },
-                                            contentDescription = null
-                                        )
-                                    }
-                                )
-                            }
+                MagicBoxNavigationDrawer {
+                    Scaffold(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        containerColor = MBTheme.colors.onPrimary,
+                        contentColor = MBTheme.colors.primary,
+                        topBar = {
+                            MagicBoxTopAppBar(
+                                onActionClick = { type ->
+                                    onActionClick(type)
+                                }
+                            )
+                        }
+                    ) {
+                        HomeScreen(
+                            modifier = Modifier
+                                .padding(it),
+                            homeUIState = viewModel.uiState,
+                            homeUIStateResponse = viewModel.movieListState.value,
+                            onTryAgain = {}
                         )
                     }
-                ) {
-                    HomeScreen(
-                        modifier = Modifier
-                            .padding(it),
-                        homeUIState = viewModel.uiState,
-                        homeUIStateResponse = viewModel.movieListState.value,
-                        onTryAgain = {}
-                    )
                 }
             }
         }
 
         viewModel.getMoviesByPage("Avengers", 1)
+    }
+
+    private fun onActionClick(type: ActionType) {
+        when (type) {
+            ActionType.DRAWER -> {
+
+            }
+            ActionType.SEARCH -> {
+
+            }
+            ActionType.LIGHT_DARK -> switchNightMode()
+        }
     }
 
     private fun switchNightMode() {

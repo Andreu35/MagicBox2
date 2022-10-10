@@ -1,4 +1,4 @@
-package com.are.magicboxtwo.ui.features.error
+package com.are.magicboxtwo.ui.common.error
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
