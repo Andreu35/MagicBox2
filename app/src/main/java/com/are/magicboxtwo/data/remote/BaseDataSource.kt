@@ -10,8 +10,12 @@ abstract class BaseDataSource {
             val response = call()
             if (response.isSuccessful) {
                 val body = response.body()
-                if (body != null) return Resource.success(body)
+                if (body != null) {
+                    Resource.Status.SUCCESS
+                    return Resource.success(body)
+                }
             }
+            Resource.Status.ERROR
             return error(" ${response.code()} ${response.message()}")
         } catch (e: Exception) {
             return error(e.message ?: e.toString())
@@ -19,6 +23,7 @@ abstract class BaseDataSource {
     }
 
     private fun <T> error(message: String): MutableLiveData<Resource<T>> {
+        Resource.Status.ERROR
         return Resource.error("Network call has failed for a following reason: $message")
     }
 

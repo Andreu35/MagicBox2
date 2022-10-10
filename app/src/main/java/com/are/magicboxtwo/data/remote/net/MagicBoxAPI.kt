@@ -13,15 +13,18 @@ interface MagicBoxAPI {
     suspend fun getSearchMoviesWithPage(
         @Query("api_key") key: String,
         @Query("query") query: String,
-        @Query("page") page: Int): Response<HomeResponse>
+        @Query("page") page: Int
+    ): Response<HomeResponse>
 
     @GET("/3/search/movie")
     suspend fun getSearchMovies(
         @Query("api_key") key: String,
-        @Query("query") query: String): Response<HomeResponse>
+        @Query("query") query: String
+    ): Response<HomeResponse>
 
     @GET("/3/movie/{movie_id}")
     suspend fun getMovie(
         @Path("movie_id") id: Int,
-        @Query("api_key") key: String): Response<Movie>
+        @Query("api_key") key: String
+    ): Response<Movie>
 }
