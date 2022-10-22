@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">Magic Box 2</string>
+    <string name="app_name">MagicBox2</string>
     <string name="api_key" translatable="false">f4ec271066616fdcd36dbcbcdb685c71</string>
     <string name="base_url" translatable="false">https://api.themoviedb.org</string>
-    <string name="base_image">https://image.tmdb.org/t/p/w500%s</string>
+    <string name="base_image">https://image.tmdb.org/t/p/w200%s</string>
 
     <string name="error_description">Ouch!\n(&gt;_&lt;)\nSomething was wrong, please try again.</string>
     <string name="try_again">Try again</string>

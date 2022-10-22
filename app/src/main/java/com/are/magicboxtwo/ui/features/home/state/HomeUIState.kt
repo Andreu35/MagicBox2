@@ -1,5 +1,7 @@
 package com.are.magicboxtwo.ui.features.home.state
 
+import com.are.magicboxtwo.ui.common.topappbar.SearchState
+
 data class HomeUIState(
-    val isSearching: Boolean = false
+    val searchState: SearchState = SearchState.Closed
 )

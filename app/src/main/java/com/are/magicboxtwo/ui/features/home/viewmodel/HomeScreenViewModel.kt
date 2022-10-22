@@ -1,17 +1,20 @@
 package com.are.magicboxtwo.ui.features.home.viewmodel
 
 import androidx.compose.runtime.State
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.are.magicboxtwo.data.remote.Resource
 import com.are.magicboxtwo.data.repository.MagicBoxRepository
+import com.are.magicboxtwo.ui.common.topappbar.SearchState
 import com.are.magicboxtwo.ui.features.home.state.HomeUIState
 import com.are.magicboxtwo.ui.features.home.state.HomeUIStateResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -33,7 +36,8 @@ class HomeScreenViewModel @Inject constructor(
     val movieListState: State<HomeUIStateResponse>
         get() = _movieListState
 
-    val uiState: HomeUIState by mutableStateOf(HomeUIState())
+    private val _uiState = MutableStateFlow(HomeUIState())
+    val uiState: StateFlow<HomeUIState> = _uiState.asStateFlow()
 
     fun tryAgain() {
         viewModelScope.launch { }
@@ -53,7 +57,27 @@ class HomeScreenViewModel @Inject constructor(
         }
     }
 
-    fun searchMovies() {
+    fun searchMovies(query: String) {
+        viewModelScope.launch(errorHandler) {
+            _movieListState.value = HomeUIStateResponse.Loading
 
+            val result = repository.searchMovies(query)
+
+            if (result.value?.status == Resource.Status.SUCCESS) {
+                _movieListState.value = HomeUIStateResponse.Success(result.value?.data?.results!!)
+            } else {
+                _movieListState.value = HomeUIStateResponse.Error
+            }
+        }
+    }
+
+    fun openOrCloseSearchBar(state: SearchState) {
+        viewModelScope.launch {
+            _uiState.update { currentState ->
+                currentState.copy(
+                    searchState = state
+                )
+            }
+        }
     }
 }

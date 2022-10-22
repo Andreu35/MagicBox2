@@ -3,7 +3,6 @@ package com.are.magicboxtwo.ui.theme
 import android.app.Activity
 import android.content.res.Configuration
 import android.os.Build
-import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -73,17 +72,11 @@ fun MagicBox2Theme(
     )
 }
 
-private class Orientation {
-    val isLandscape: Boolean
-        @Composable
-        get() = LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
-}
-
 object MBTheme {
     val colors: ColorScheme
         @Composable
         get() = if (isSystemInDarkTheme()) DarkColorScheme else LightColorScheme
     val isLandscape: Boolean
         @Composable
-        get() = Orientation().isLandscape
+        get() = LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
 }

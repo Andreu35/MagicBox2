@@ -1,6 +1,5 @@
 package com.are.magicboxtwo.ui.common.navigationdrawer
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -8,24 +7,24 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.are.magicboxtwo.R
-import com.are.magicboxtwo.ui.theme.Blue
-import com.are.magicboxtwo.ui.theme.MBTheme
+import com.are.magicboxtwo.ui.theme.*
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MagicBoxNavigationDrawer(
+    drawerState: DrawerState,
     content: @Composable () -> Unit
 ) {
-    val drawerState = rememberDrawerState(
-        initialValue = DrawerValue.Closed
-    )
+    val scope = rememberCoroutineScope()
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -44,7 +43,11 @@ fun MagicBoxNavigationDrawer(
                 MagicBoxNavigationHeader()
                 MagicBoxNavigationBody(
                     items = getNavigationItemsList(),
-                    onItemClick = {}
+                    onItemClick = {
+                        scope.launch {
+                            drawerState.close()
+                        }
+                    }
                 )
             }
         }
@@ -60,17 +63,12 @@ fun MagicBoxNavigationHeader() {
             .fillMaxWidth()
             .height(230.dp)
             .background(
-                color = Blue
-            ),
-        contentAlignment = Alignment.Center
-    ) {
-        Image(
-            modifier = Modifier
-                .size(200.dp),
-            painter = painterResource(id = R.drawable.ic_box),
-            contentDescription = null
-        )
-    }
+                brush = Brush.verticalGradient(
+                    colors = listOf(Red1, Red, Blue, Gray1),
+                    tileMode = TileMode.Decal
+                )
+            )
+    )
 }
 
 @Composable

@@ -10,7 +10,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
@@ -30,15 +30,7 @@ fun HomeScreen(
     homeUIStateResponse: HomeUIStateResponse,
     onTryAgain: () -> Unit
 ) {
-    var tryAgain by remember { mutableStateOf(value = false) }
     val scrollState = rememberLazyGridState()
-
-    LaunchedEffect(tryAgain) {
-        if (tryAgain) {
-            tryAgain = false
-            onTryAgain()
-        }
-    }
 
     when (homeUIStateResponse) {
         is HomeUIStateResponse.Loading -> {
@@ -58,9 +50,7 @@ fun HomeScreen(
                 contentAlignment = Alignment.Center
             ) {
                 ErrorContent(
-                    onClick = {
-                        tryAgain = true
-                    }
+                    onClick = onTryAgain
                 )
             }
         }
