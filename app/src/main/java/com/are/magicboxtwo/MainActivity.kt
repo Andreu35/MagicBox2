@@ -87,7 +87,9 @@ class MainActivity : ComponentActivity() {
                                 .padding(it),
                             homeUIState = viewModel.uiState.collectAsState().value,
                             homeUIStateResponse = viewModel.movieListState.value,
-                            onTryAgain = {}
+                            onTryAgain = {
+                                viewModel.tryAgain()
+                            }
                         )
                     }
                 }

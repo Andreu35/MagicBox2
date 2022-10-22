@@ -78,12 +78,14 @@ fun SearchAppBar(
         singleLine = true,
         keyboardActions = KeyboardActions(
             onSearch = {
-                onSearch(query)
+                if (query.isNotEmpty()) {
+                    onSearch(query)
+                }
             }
         ),
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Text,
-            imeAction = ImeAction.Search
+            imeAction = if (query.isNotEmpty()) ImeAction.Search else ImeAction.Default
         )
     )
 }

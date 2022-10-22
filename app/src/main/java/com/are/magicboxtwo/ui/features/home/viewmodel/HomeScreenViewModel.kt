@@ -40,14 +40,10 @@ class HomeScreenViewModel @Inject constructor(
     val uiState: StateFlow<HomeUIState> = _uiState.asStateFlow()
 
     fun tryAgain() {
-        viewModelScope.launch { }
-    }
-
-    fun getMoviesByPage(query: String, page: Int) {
         viewModelScope.launch(errorHandler) {
             _movieListState.value = HomeUIStateResponse.Loading
 
-            val result = repository.searchMoviesWithPage(query, page)
+            val result = repository.searchMovies(_uiState.value.lastQuery)
 
             if (result.value?.status == Resource.Status.SUCCESS) {
                 _movieListState.value = HomeUIStateResponse.Success(result.value?.data?.results!!)
@@ -56,6 +52,20 @@ class HomeScreenViewModel @Inject constructor(
             }
         }
     }
+
+//    fun getMoviesByPage(query: String, page: Int) {
+//        viewModelScope.launch(errorHandler) {
+//            _movieListState.value = HomeUIStateResponse.Loading
+//
+//            val result = repository.searchMoviesWithPage(query, page)
+//
+//            if (result.value?.status == Resource.Status.SUCCESS) {
+//                _movieListState.value = HomeUIStateResponse.Success(result.value?.data?.results!!)
+//            } else {
+//                _movieListState.value = HomeUIStateResponse.Error
+//            }
+//        }
+//    }
 
     fun searchMovies(query: String) {
         viewModelScope.launch(errorHandler) {
@@ -67,6 +77,11 @@ class HomeScreenViewModel @Inject constructor(
                 _movieListState.value = HomeUIStateResponse.Success(result.value?.data?.results!!)
             } else {
                 _movieListState.value = HomeUIStateResponse.Error
+            }
+            _uiState.update { currentState ->
+                currentState.copy(
+                    lastQuery = query
+                )
             }
         }
     }
