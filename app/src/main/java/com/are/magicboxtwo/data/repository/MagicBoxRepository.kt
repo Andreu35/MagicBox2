@@ -12,10 +12,7 @@ class MagicBoxRepository @Inject constructor(
     /**
      * Remote
      */
-    suspend fun getMovie(id: Int) = remoteDataSource.getMovie(id)
-
-    suspend fun searchMoviesWithPage(query: String, page: Int) =
-        remoteDataSource.searchMoviesWithPage(query, page)
+    suspend fun getMovie(id: Int?) = remoteDataSource.getMovie(id)
 
     suspend fun searchMovies(query: String) = remoteDataSource.searchMovies(query)
 

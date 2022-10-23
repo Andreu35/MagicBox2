@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -15,20 +16,31 @@ import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.are.magicboxtwo.ui.common.navigation.MagicBoxNavigationRoute
 import com.are.magicboxtwo.ui.theme.*
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MagicBoxNavigationDrawer(
+    navController: NavController,
     drawerState: DrawerState,
     content: @Composable () -> Unit
 ) {
     val scope = rememberCoroutineScope()
+    val currentRoute = navController
+        .currentBackStackEntryFlow
+        .collectAsState(initial = navController.currentBackStackEntry)
+
+    val enableGestures = when (currentRoute.value?.destination?.route) {
+        MagicBoxNavigationRoute.Home.name -> true
+        else -> false
+    }
 
     ModalNavigationDrawer(
         drawerState = drawerState,
-        gesturesEnabled = true,
+        gesturesEnabled = enableGestures,
         drawerContent = {
             Column(
                 modifier = Modifier
@@ -43,9 +55,26 @@ fun MagicBoxNavigationDrawer(
                 MagicBoxNavigationHeader()
                 MagicBoxNavigationBody(
                     items = getNavigationItemsList(),
-                    onItemClick = {
+                    onItemClick = { item ->
                         scope.launch {
                             drawerState.close()
+                            when (item.title) {
+                                NavigationItemsList.Home.name -> {
+                                    if (currentRoute.value?.destination?.route != MagicBoxNavigationRoute.Home.name) {
+                                        navController.navigate(MagicBoxNavigationRoute.Home.name)
+                                    }
+                                }
+                                NavigationItemsList.Settings.name -> {
+                                    if (currentRoute.value?.destination?.route != MagicBoxNavigationRoute.Settings.name) {
+                                        navController.navigate(MagicBoxNavigationRoute.Settings.name)
+                                    }
+                                }
+                                NavigationItemsList.Help.name -> {
+                                    if (currentRoute.value?.destination?.route != MagicBoxNavigationRoute.Help.name) {
+                                        navController.navigate(MagicBoxNavigationRoute.Help.name)
+                                    }
+                                }
+                            }
                         }
                     }
                 )

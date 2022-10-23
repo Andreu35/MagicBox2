@@ -14,15 +14,9 @@ class MagicBoxDataSource @Inject constructor(
 
     private val key = context.getString(R.string.api_key)
 
-    suspend fun getMovie(id: Int) = getResult {
+    suspend fun getMovie(id: Int?) = getResult {
         withContext(Dispatchers.IO) {
             api.getMovie(id, key)
-        }
-    }
-
-    suspend fun searchMoviesWithPage(query: String, page: Int) = getResult {
-        withContext(Dispatchers.IO) {
-            api.getSearchMoviesWithPage(key, query, page)
         }
     }
 

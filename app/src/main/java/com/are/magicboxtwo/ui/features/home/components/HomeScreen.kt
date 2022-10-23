@@ -1,6 +1,7 @@
 package com.are.magicboxtwo.ui.features.home.components
 
 import android.content.res.Configuration
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -16,8 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.are.magicboxtwo.data.model.Movie
 import com.are.magicboxtwo.ui.common.error.ErrorContent
-import com.are.magicboxtwo.ui.features.home.state.HomeUIState
 import com.are.magicboxtwo.ui.features.home.state.HomeUIStateResponse
 import com.are.magicboxtwo.ui.features.home.state.dummyPreviewItems
 import com.are.magicboxtwo.ui.theme.MBTheme
@@ -26,8 +27,8 @@ import com.are.magicboxtwo.ui.theme.MagicBox2Theme
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    homeUIState: HomeUIState = HomeUIState(),
     homeUIStateResponse: HomeUIStateResponse,
+    onItemClick: (movie: Movie) -> Unit,
     onTryAgain: () -> Unit
 ) {
     val scrollState = rememberLazyGridState()
@@ -39,7 +40,7 @@ fun HomeScreen(
                 contentAlignment = Alignment.Center
             ) {
                 CircularProgressIndicator(
-                    color = MBTheme.colors.onPrimary,
+                    color = MBTheme.colors.primary,
                     strokeWidth = 4.dp
                 )
             }
@@ -71,6 +72,9 @@ fun HomeScreen(
             ) {
                 items(homeUIStateResponse.movieList) { item ->
                     HomeListItem(
+                        modifier = Modifier.clickable {
+                            onItemClick(item)
+                        },
                         item = item
                     )
                 }
@@ -87,8 +91,8 @@ fun HomeScreen(
 private fun HomeScreenPreview() {
     MagicBox2Theme {
         HomeScreen(
-            homeUIState = HomeUIState(),
             homeUIStateResponse = HomeUIStateResponse.Success(dummyPreviewItems()),
+            onItemClick = {},
             onTryAgain = {}
         )
     }

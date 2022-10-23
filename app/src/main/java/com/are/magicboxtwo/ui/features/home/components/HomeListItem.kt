@@ -23,6 +23,7 @@ import com.are.magicboxtwo.ui.theme.Red1
 
 @Composable
 fun HomeListItem(
+    modifier: Modifier = Modifier,
     item: Movie = Movie()
 ) {
     if (item.backdrop_path != null) {
@@ -34,7 +35,7 @@ fun HomeListItem(
                 .size(
                     width = 100.dp,
                     height = 150.dp
-                ),
+                ).then(modifier),
             model = stringResource(id = R.string.base_image, item.poster_path),
             contentDescription = null,
             contentScale = ContentScale.FillWidth
